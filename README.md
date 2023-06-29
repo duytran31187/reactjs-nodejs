@@ -4,4 +4,5 @@ Nodejs with express: build api
    - npm install express (optional as the following command will build it)
    - npx express-generator => to build skeleton
    - npm install
-reactjs class base
+reactjs class base:
+   - from root, run command to generate react under folder name frontend: npx create-react-app frontend
