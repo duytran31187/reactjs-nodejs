@@ -1,9 +1,17 @@
 // use express router
 const router = require("express").Router();
+const {getAllFoods} = require("../data/food");
 
-router.get("/", (req, res) => {
-    // TODO: return list available foods here
-    res.send("will return food data here");
+router.get("/", async (req, res, next) => {
+    console.log(req.token);
+  try {
+
+    const foods = await getAllFoods();
+
+    res.json({ foods: foods });
+  } catch (error) {
+    next(error);
+  }
 });
 
 module.exports = router;
