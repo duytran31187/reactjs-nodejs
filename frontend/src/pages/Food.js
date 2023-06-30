@@ -26,7 +26,7 @@ class FoodPage extends React.Component {
                 <main>
                     <Meals />
                 </main>
-          </CartProvider>
+            </CartProvider>
         )
     }
 }
