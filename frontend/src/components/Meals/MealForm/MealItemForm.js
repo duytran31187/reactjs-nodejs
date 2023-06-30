@@ -35,7 +35,7 @@ class MealItemForm extends React.Component {
             this.setState({ 
             form: {
                 ...this.state.form,
-                amount: event.target.value
+                amount: enteredAmountNumber
             }
         });
         }

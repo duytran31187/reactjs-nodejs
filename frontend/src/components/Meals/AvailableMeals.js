@@ -77,6 +77,7 @@ class AvailableMeals extends React.Component {
           price: responseData[key].price
         })
       }
+      
       console.log(`loadedMeals ${JSON.stringify(loadedMeals)}`);
       this.setState({
         meals: loadedMeals
