@@ -1,8 +1,7 @@
-import React from "react";
-import CartProvider from "../store/CartProvider";
-import Cart from "../components/Cart/Cart";
+import React, { Fragment } from "react";
 import Header from "../components/Layout/Header";
 import Meals from "../components/Meals/Meals";
+import Cart from "../components/Cart/Cart";
 
 class FoodPage extends React.Component {
     constructor(props) {
@@ -19,38 +18,15 @@ class FoodPage extends React.Component {
     }
     render() {
         return (
-            <CartProvider>
+            <Fragment>
                 {this.state.cartIsShown && <Cart onClose={this.hideCartHandler}/>}
                 <Header onShowCart={this.showCartHandler}/>
                 
                 <main>
                     <Meals />
                 </main>
-            </CartProvider>
+            </Fragment>
         )
     }
 }
-// const FoodPage = props => {
-//     const [cartIsShown, setCartIsShown] = React.useState(false);
-
-//     const showCartHandler = () => {
-//         console.log("showCart");
-//         setCartIsShown(true);
-//     };
-
-//     const hideCartHandler = () => {
-//         console.log("hideCartHandler");
-//         setCartIsShown(false);
-//     };
-//     return (
-//         <CartProvider>
-//             {cartIsShown && <Cart onClose={hideCartHandler}/>}
-//             <Header onShowCart={showCartHandler}/>
-            
-//             <main>
-//                 <Meals />
-//             </main>
-//       </CartProvider>
-//     )
-// }
 export default FoodPage;
