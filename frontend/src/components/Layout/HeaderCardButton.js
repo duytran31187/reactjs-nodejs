@@ -1,78 +1,51 @@
 import React from 'react'
 import classes from './HeaderCardButton.module.css'
 import CartIcon from './CartIcon'
-import useIsHighlight from '../../hooks/use-higlight'
-import { useSelector} from "react-redux"
+import { connect } from "react-redux";
+import {mapStateToProps} from "../../redux/selectors"
+class HeaderCardButton extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      isHighlight: false,
+    }
+  }
+  useIsHighlight = (items) => {
+    console.log(`HeaderCardButton useIsHighlight ${JSON.stringify(items)}`);
+    if (items.length === 0) {
+        return;
+    }
 
-// class HeaderCardButton extends React.Component {
-//   constructor(props) {
-//     super(props);
-//     this.state = {
-//       isHighlight: false,
-//     }
-//   }
-//   useIsHighlight = (items) => {
-//     console.log(`HeaderCardButton useIsHighlight ${JSON.stringify(items)}`);
-//     if (items.length === 0) {
-//         return;
-//     }
-
-//     // this.setState({isHighlight : true});
-//     this.hightlightTimer = setTimeout(() => {
-//         this.setState({isHighlight : false});
-//     }, 300);
+    // this.setState({isHighlight : true});
+    this.hightlightTimer = setTimeout(() => {
+        this.setState({isHighlight : false});
+    }, 300);
     
-//     return true;
-//   };
-//   componentDidUpdate(prevProps, prevState ) {
-//     console.log(`HeaderCardButton componentDidUpdate ${JSON.stringify(this.context.items)}`);
-//     // if (prevState.isHighlight !== this.state.isHighlight) {
-//       // this.useIsHighlight(this.context.items);
-//     // }
-//   }
-//   componentWillUnmount() {
-//     console.log(`HeaderCardButton componentWillUnmount`);
-//     clearTimeout(this.hightlightTimer);
-//   }
-//   render() {
+    return true;
+  };
+  componentDidUpdate(prevProps, prevState ) {
+    console.log(`HeaderCardButton componentDidUpdate ${JSON.stringify(this.context.items)}`);
+    // if (prevState.isHighlight !== this.state.isHighlight) {
+      // this.useIsHighlight(this.context.items);
+    // }
+  }
+  componentWillUnmount() {
+    console.log(`HeaderCardButton componentWillUnmount`);
+    clearTimeout(this.hightlightTimer);
+  }
+  render() {
 
-//     const numberOfCartItems = this.context.items.reduce((curNumber, item) => {
-//       return curNumber + item.amount
-//     }, 0)
+    const numberOfCartItems = this.props.cart.items.reduce((curNumber, item) => {
+      return curNumber + item.amount
+    }, 0)
 
-//     // const isHighlight = this.useIsHighlight(this.context.items);
+    // const isHighlight = this.useIsHighlight(this.context.items);
 
-//     // const btnClasses = `${classes.button} ${isHighlight ? classes.bump : ''}`
-//     return (
-//         <button className={this.state.btnClasses}>
-//             <span className={classes.icon} onClick={this.props.onShowCart}>
-//                 <CartIcon />
-//             </span>
-//             <span>
-//                 Cart
-//             </span>
-//             <span className={classes.badge}>
-//                 {numberOfCartItems}
-//             </span>
-//         </button>
-//     )
-//   }
-// }
-// HeaderCardButton.contextType = CartContext;
-
-const HeaderCardButton = props => {
-  const items = useSelector((state) => state.cart.items);
-
-  const numberOfCartItems = items.reduce((curNumber, item) => {
-    return curNumber + item.amount
-  }, 0)
-
-  const isHighlight = useIsHighlight(items)
-  const btnClasses = `${classes.button} ${isHighlight ? classes.bump : ''}`
-
-  return (
+    // const btnClasses = `${classes.button} ${isHighlight ? classes.bump : ''}`
+    const btnClasses = `${classes.button}`;
+    return (
         <button className={btnClasses}>
-            <span className={classes.icon} onClick={props.onShowCart}>
+            <span className={classes.icon} onClick={this.props.onShowCart}>
                 <CartIcon />
             </span>
             <span>
@@ -82,7 +55,8 @@ const HeaderCardButton = props => {
                 {numberOfCartItems}
             </span>
         </button>
-  )
+    )
+  }
 }
 
-export default HeaderCardButton
+export default connect(mapStateToProps)(HeaderCardButton);

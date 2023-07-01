@@ -6,6 +6,7 @@ import CartItem from './CartItem'
 import Checkout from './Checkout'
 import { connect } from "react-redux";
 import { addItemToCart, removeItemFromCart } from "../../redux/actions/cart"
+import {mapStateToProps} from "../../redux/selectors"
 
 class Cart extends React.Component {
   // static cartCtx = CartContext
@@ -126,10 +127,5 @@ class Cart extends React.Component {
     )
   }
 }
-const mapStateToProps = state => {
-  return {
-    cart: state.cart
-  };
-};
 
 export default connect(mapStateToProps, { addItemToCart, removeItemFromCart })(Cart);
