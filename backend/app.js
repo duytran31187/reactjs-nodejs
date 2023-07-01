@@ -4,6 +4,7 @@ const express = require('express');
 const indexRouter = require('./routes/index');
 const foodRouter = require('./routes/food');
 const eventRouter = require('./routes/events');
+const authRoutes = require('./routes/auth');
 
 const app = express();
 
@@ -15,7 +16,7 @@ app.use((req, res, next) => {
   next();
 });
 
-app.use('/', indexRouter);
+app.use(authRoutes);
 app.use('/food', foodRouter);
 app.use('/events', eventRouter);
 
