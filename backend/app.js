@@ -3,6 +3,7 @@ const express = require('express');
 
 const indexRouter = require('./routes/index');
 const foodRouter = require('./routes/food');
+const eventRouter = require('./routes/events');
 
 const app = express();
 
@@ -16,6 +17,7 @@ app.use((req, res, next) => {
 
 app.use('/', indexRouter);
 app.use('/food', foodRouter);
+app.use('/events', eventRouter);
 
 // error handler
 app.use(function(error, req, res, next) {
