@@ -1,10 +1,11 @@
 /* eslint-disable react/prop-types */
-import React, { useContext, useState } from 'react'
+import React from 'react'
 import classes from './Cart.module.css'
 import Modal from '../Layout/UI/Modal/Modal'
-import CartContext from '../../store/cart-context'
 import CartItem from './CartItem'
 import Checkout from './Checkout'
+import { connect } from "react-redux";
+import { addItemToCart, removeItemFromCart } from "../../redux/actions/cart"
 
 class Cart extends React.Component {
   // static cartCtx = CartContext
@@ -21,17 +22,17 @@ class Cart extends React.Component {
 
 
   carItemAddHandler = (item) => {
-    console.log(`111carItemAddHandler ${JSON.stringify(item)}`)
     const addedItem = {
       ...item,
       amount: 1
     }
-    console.log(`222222222carItemAddHandler ${JSON.stringify(addedItem)}`)
-    this.context.addItem(addedItem)
+    console.log(`carItemAddHandler ${JSON.stringify(item)}`)
+    this.props.addItemToCart({item: addedItem});
   }
 
   carItemRemoveHandler = (id) => {
-    this.context.removeItem(id)
+    console.log(`carItemRemoveHandler ${JSON.stringify(id)}`)
+    this.props.removeItemFromCart({id: id});
   }
   
   // show checkout form
@@ -64,8 +65,9 @@ class Cart extends React.Component {
   }
 
   render() {
-    const items = this.context.items
-    const totalAmount = `$${this.context.totalAmount.toFixed(2)}`
+    console.log(`redux cart ${JSON.stringify(this.props.cart)}`);
+    const items = this.props.cart.items;
+    const totalAmount = `$${this.props.cart.totalAmount.toFixed(2)}`
     const hasItems = items.length > 0
 
     const cartItems = <ul className={classes['cart-items']}>{items.map(item => {
@@ -124,107 +126,10 @@ class Cart extends React.Component {
     )
   }
 }
-// The contextType property on a class can be assigned a Context object created by React.createContext(). Using this property lets you consume the nearest current value of that Context type using this.context. You can reference this in any of the lifecycle methods including the render function.
-Cart.contextType = CartContext;
+const mapStateToProps = state => {
+  return {
+    cart: state.cart
+  };
+};
 
-
-
-// const Cart = props => {
-//   const [isCheckout, setIsCheckout] = useState(false)
-//   const [isSubmitting, setIsSubmitting] = useState(false)
-//   const [didSubmit, setDidSubmit] = useState(false)
-
-//   const cartCtx = useContext(CartContext)
-//   const items = cartCtx.items
-//   const totalAmount = `$${cartCtx.totalAmount.toFixed(2)}`
-//   const hasItems = items.length > 0
-  
-//   const carItemAddHandler = (item) => {
-//     const addedItem = {
-//       ...item,
-//       amount: 1
-//     }
-//     cartCtx.addItem(addedItem)
-//   }
-  // const carItemRemoveHandler = (id) => {
-  //   cartCtx.removeItem(id)
-  // }
-
-//   const orderHandler = () => { // show checkout form
-//     setIsCheckout(true)
-//   }
-
-//   const submitOrderHandler = async (userData) => { // submit order
-//     setIsSubmitting(true)
-//     await fetch('https://food-app-react-97e2c-default-rtdb.asia-southeast1.firebasedatabase.app/orders.json', {
-//       method: 'POST',
-//       body: JSON.stringify({
-//         user: userData,
-//         orderedItems: cartCtx.items
-//       })
-//     })
-//     setIsSubmitting(false)
-//     setDidSubmit(true)
-//     cartCtx.clearCart()
-//   }
-
-//   const cartItems = <ul className={classes['cart-items']}>{items.map(item => {
-//     return (
-//             <CartItem key={item.id} name={item.name} price={item.price} amount ={item.amount}
-//             onAdd = {carItemAddHandler.bind(null, item)}
-//             onRemove={carItemRemoveHandler.bind(null, item.id)}
-//             />
-//     )
-//   })}</ul>
-
-//   // contents
-//   const modalActions = ( // default actions
-//         <div className={classes.actions}>
-//           <button className={classes['button--alt']} onClick={props.onClose}>
-//             Close
-//           </button>
-//           {hasItems && (
-//             <button className={classes.button} onClick={orderHandler}>
-//               Order
-//             </button>
-//           )}
-//         </div>
-//   )
-
-//   const cartModalContent = ( // default content
-//         <React.Fragment>
-//           {cartItems}
-//           <div className={classes.total}>
-//             <span>Total Amount</span>
-//             <span>{totalAmount}</span>
-//           </div>
-//           {isCheckout && (
-//             <Checkout onConfirm={submitOrderHandler} onCancel={props.onClose} />
-//           )}
-//           {!isCheckout && modalActions}
-//         </React.Fragment>
-//   )
-
-//   const isSubmittingModalContent = <p>Sending order data...</p>
-
-//   const didSubmitModalContent = ( // after confirm clicked
-//       <React.Fragment>
-//         <p>Successfully sent the order!</p>
-//         <div className={classes.actions}>
-//         <button className={classes.button} onClick={props.onClose}>
-//           Close
-//         </button>
-//       </div>
-//       </React.Fragment>
-//   )
-
-//   return (
-//         // eslint-disable-next-line react/prop-types
-//         <Modal onClose={props.onClose}>
-//             {!isSubmitting && !didSubmit && cartModalContent}
-//             {isSubmitting && isSubmittingModalContent}
-//             {!isSubmitting && didSubmit && didSubmitModalContent}
-//         </Modal>
-//   )
-// }
-export default Cart
+export default connect(mapStateToProps, { addItemToCart, removeItemFromCart })(Cart);

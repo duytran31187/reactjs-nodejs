@@ -1,8 +1,8 @@
-import React, { useContext } from 'react'
+import React from 'react'
 import classes from './HeaderCardButton.module.css'
 import CartIcon from './CartIcon'
-import CartContext from '../../store/cart-context'
 import useIsHighlight from '../../hooks/use-higlight'
+import { useSelector} from "react-redux"
 
 // class HeaderCardButton extends React.Component {
 //   constructor(props) {
@@ -61,15 +61,13 @@ import useIsHighlight from '../../hooks/use-higlight'
 // HeaderCardButton.contextType = CartContext;
 
 const HeaderCardButton = props => {
-  const cartCtx = useContext(CartContext)
-
-  const { items } = cartCtx
+  const items = useSelector((state) => state.cart.items);
 
   const numberOfCartItems = items.reduce((curNumber, item) => {
     return curNumber + item.amount
   }, 0)
 
-  const isHighlight = useIsHighlight(cartCtx.items)
+  const isHighlight = useIsHighlight(items)
   const btnClasses = `${classes.button} ${isHighlight ? classes.bump : ''}`
 
   return (
