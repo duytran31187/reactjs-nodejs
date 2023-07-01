@@ -27,12 +27,10 @@ class Cart extends React.Component {
       ...item,
       amount: 1
     }
-    console.log(`carItemAddHandler ${JSON.stringify(item)}`)
     this.props.addItemToCart({item: addedItem});
   }
 
   carItemRemoveHandler = (id) => {
-    console.log(`carItemRemoveHandler ${JSON.stringify(id)}`)
     this.props.removeItemFromCart({id: id});
   }
   
@@ -66,9 +64,8 @@ class Cart extends React.Component {
   }
 
   render() {
-    console.log(`redux cart ${JSON.stringify(this.props.cart)}`);
-    const items = this.props.cart.items;
-    const totalAmount = `$${this.props.cart.totalAmount.toFixed(2)}`
+    const items = this.props.items;
+    const totalAmount = `$${this.props.totalAmount.toFixed(2)}`
     const hasItems = items.length > 0
 
     const cartItems = <ul className={classes['cart-items']}>{items.map(item => {

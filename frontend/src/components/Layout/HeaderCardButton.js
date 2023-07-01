@@ -24,7 +24,6 @@ class HeaderCardButton extends React.Component {
     return true;
   };
   componentDidUpdate(prevProps, prevState ) {
-    console.log(`HeaderCardButton componentDidUpdate ${JSON.stringify(this.context.items)}`);
     // if (prevState.isHighlight !== this.state.isHighlight) {
       // this.useIsHighlight(this.context.items);
     // }
@@ -35,7 +34,7 @@ class HeaderCardButton extends React.Component {
   }
   render() {
 
-    const numberOfCartItems = this.props.cart.items.reduce((curNumber, item) => {
+    const numberOfCartItems = this.props.items.reduce((curNumber, item) => {
       return curNumber + item.amount
     }, 0)
 
